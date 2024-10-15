@@ -18,7 +18,7 @@ React (front-end) -> Spring (back-end 1) -> NodeJS (back-end 2)
 
 ## Why am I using these stacks?
 - Spring, Spring Security : Korean Government Framework.
-- NodeJS : To show an understanding of async backend server.
+- NodeJS : To show an understanding of async backend server.
 - React : comparatibly simple and well-known CSR.
 - MongoDB : Flexible NoSQL DB. 
 - AWS EC2 and CodePipeline : Automating CI/CD pipeline.
