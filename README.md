@@ -16,7 +16,7 @@ React (front-end) -> Spring (back-end 1) -> NodeJS (back-end 2)
   - NodeJS server is monitored by Spring in Kubernetes and Docker environment.
   - Spring act as middle manager and is responsible for all communication between React and NodeJS.
 
-## Why am I using these stacks?
+## Why am I using these stacks?
 - Spring, Spring Security : Korean Government Framework.
 - NodeJS : To show an understanding of async backend server.
 - React : comparatibly simple and well-known CSR.
