@@ -76,3 +76,4 @@ crashlytics-build.properties
 /Packages/com.singularitygroup.hotreload
 mono_crash.*
 *.swp
+*.properties
