@@ -18,6 +18,7 @@ public class User {
     @Id
     private ObjectId id;
     private String companyName;
+    private String password;
     @CreatedDate
     private LocalDateTime createdDate;
     private LocalDateTime expirationDate;
