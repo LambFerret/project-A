@@ -21,7 +21,7 @@ public interface BulletinRepository extends MongoRepository<Bulletin, ObjectId> 
             bulletin.setTitle(title);
             bulletin.setContent(content);
             bulletin.setDate(date);
-            bulletin.setUser(user);
+//            bulletin.setAuthorId();
             save(bulletin);
         }
     }

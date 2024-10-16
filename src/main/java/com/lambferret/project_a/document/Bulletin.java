@@ -18,6 +18,6 @@ public class Bulletin implements Serializable {
     private ObjectId id;
     private String title;
     private String content;
-    private String user;
+    private ObjectId authorId;
     private String date;
 }
