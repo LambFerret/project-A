@@ -77,3 +77,4 @@ crashlytics-build.properties
 mono_crash.*
 *.swp
 *.properties
+target/
