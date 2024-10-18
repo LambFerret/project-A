@@ -35,6 +35,7 @@ public class RequestFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws IOException {
 
+        // HttpServletRequest 및 HttpServletResponse 는 Stream 이므로 여러번 읽을 수 없기에 박싱을 한다.
         var requestWrapper = new ContentCachingRequestWrapper(request);
         var responseWrapper = new ContentCachingResponseWrapper(response);
 
@@ -46,16 +47,16 @@ public class RequestFilter extends OncePerRequestFilter {
 
             if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
                 jwt = requestHeader.substring(7);
-                companyName = JwtUtil.getSubject(jwt); // JWT에서 companyName 추출
+                companyName = JwtUtil.getSubject(jwt);
             }
-            // 테스트를 위해 모든 요청에 대해 Authentication 객체를 생성합니다.
+
+            // 테스트를 위한 사용자 생성
             User mockUser = User.builder()
                     .companyName(companyName)
                     .password("password123")
                     .build();
 
-            Authentication authToken = new UsernamePasswordAuthenticationToken(
-                    mockUser, null, null);  // 권한은 null로 설정
+            Authentication authToken = new UsernamePasswordAuthenticationToken(mockUser, null, mockUser.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
 
@@ -72,7 +73,7 @@ public class RequestFilter extends OncePerRequestFilter {
 
                 if (user != null && JwtUtil.isTokenValid(jwt, companyName)) {
                     Authentication authToken = new UsernamePasswordAuthenticationToken(
-                            user, null, null); // 권한이 없는 경우 null로 설정
+                            user, null, user.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } else {
                     responseWrapper.sendError(HttpServletResponse.SC_UNAUTHORIZED,
@@ -84,6 +85,7 @@ public class RequestFilter extends OncePerRequestFilter {
 
             // 필터 체인 진행
             filterChain.doFilter(requestWrapper, responseWrapper);
+            responseWrapper.copyBodyToResponse();
 
         } catch (Exception e) {
             responseWrapper.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");

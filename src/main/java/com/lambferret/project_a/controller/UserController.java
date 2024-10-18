@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +30,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> handleLogin(@RequestBody LoginDto loginRequest) {
         // 비밀번호를 이용해 사용자 조회
-        User user = userService.findByCompanyName(loginRequest.getPassword());
+        UserDetails user = userService.loadUserByUsername(loginRequest.getPassword());
 
         if (user != null) {
             // 회사명을 JWT의 subject로 설정해 토큰 생성
-            String jwt = JwtUtil.createToken(user.getCompanyName());
+            String jwt = JwtUtil.createToken(user.getUsername());
             log.info("JWT: {}", jwt);
             return ResponseEntity.ok()
                     .header("Authorization", "Bearer " + jwt)
